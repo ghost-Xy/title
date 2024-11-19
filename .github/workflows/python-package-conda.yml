@@ -1,0 +1,40 @@
+name: Build .exe with PyInstaller
+
+on:
+  push:
+    branches:
+      - main  # 可以根据需要修改为其他分支
+  pull_request:
+    branches:
+      - main  # 可以根据需要修改为其他分支
+
+jobs:
+  build:
+    runs-on: windows-latest  # 使用 Windows 环境来编译 .exe 文件
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # 可以选择合适的 Python 版本
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install playwright
+          python -m playwright install
+
+      - name: Build executable
+        run: |
+          pyinstaller --onefile fetch_titles.py
+
+      - name: Upload .exe file
+        uses: actions/upload-artifact@v3
+        with:
+          name: fetch_titles-exe
+          path: dist/fetch_titles.exe  # 这是生成的 .exe 文件路径
+
