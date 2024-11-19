@@ -3,26 +3,26 @@ name: Build .exe with PyInstaller
 on:
   push:
     branches:
-      - main  # 根据实际需要修改为您使用的分支
+      - main
   pull_request:
     branches:
-      - main  # 根据实际需要修改为您使用的分支
+      - main
 
 jobs:
   build:
-    runs-on: windows-latest  # 使用 Windows 环境来编译 .exe 文件
+    runs-on: windows-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: List files to debug
-        run: dir  # 列出当前文件夹内容，以帮助调试
+        run: dir  # 调试命令：列出文件
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'  # 选择合适的 Python 版本
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
@@ -39,6 +39,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: fetch_titles-exe
-          path: dist/fetch_titles.exe  # 这是生成的 .exe 文件路径
-
-查看全部
+          path: dist/fetch_titles.exe
